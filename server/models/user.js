@@ -34,9 +34,8 @@ var UserSchema = new mongoose.Schema({
 });
 
 UserSchema.statics.findByCredentials = function(email,password){
-    var user = this;
 
-    return User.finsOne({email}).then((user)=>{
+    return User.findOne({email}).then((user)=>{
         if(!user){
             return Promise.reject();
         }
@@ -44,13 +43,11 @@ UserSchema.statics.findByCredentials = function(email,password){
             bcrypt.compare(password, user.password, (err,res) => {
                 if(res){
                     resolve(user);
-                }else{
-                    reject();
                 }
+                reject();
             });
         });
     });
-
 };
 
 UserSchema.statics.findByToken = function(token){
