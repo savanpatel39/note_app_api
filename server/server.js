@@ -5,6 +5,7 @@ const {ObjectID} = require('mongodb');
 const _ = require('lodash');
 
 var { mongoose } = require('./db/mongoose');
+var { User } = require('./models/user');
 
 var app = express();
 const port = process.env.PORT || 3000;
@@ -13,7 +14,7 @@ app.use(bodyParser.json());
 
 app.post('/users', async (req,res) => {
     try{
-        const body = _.pick[req.body, ['email','password']];
+        const body = _.pick(req.body, ['email','password']);
         const user = new User(body);
         await user.save();
         const token = await user.generateAuthToken();
